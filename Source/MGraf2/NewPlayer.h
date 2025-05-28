@@ -33,6 +33,22 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> spawnObject;
 
+	UPROPERTY(VisibleAnywhere)
+	class USphereComponent* PickUpRange;
+
+	TArray<class AKey*> OverlappingObjects;
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+		const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	void PickUpKey();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

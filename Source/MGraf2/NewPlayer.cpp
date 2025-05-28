@@ -2,6 +2,8 @@
 
 
 #include "NewPlayer.h"
+#include "Key.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 ANewPlayer::ANewPlayer()
@@ -9,13 +11,19 @@ ANewPlayer::ANewPlayer()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	PickUpRange = CreateDefaultSubobject<USphereComponent>(TEXT("PickUpRange"));
+	PickUpRange->SetupAttachment(RootComponent);
+	PickUpRange->InitSphereRadius(200.0f);
+	PickUpRange->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+
+	PickUpRange->OnComponentBeginOverlap.AddDynamic(this, &ANewPlayer::OnOverlapBegin);
+	PickUpRange->OnComponentEndOverlap.AddDynamic(this, &ANewPlayer::OnOverlapEnd);
 }
 
 // Called when the game starts or when spawned
 void ANewPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -65,3 +73,28 @@ void ANewPlayer::FirePressed()
 	GetWorld()->SpawnActor<AActor>(spawnObject, GetActorLocation(), GetActorRotation());
 }
 
+void ANewPlayer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (AKey* key = Cast<AKey>(OtherActor))
+	{
+		OverlappingObjects.Add(key);
+	}
+}
+
+void ANewPlayer::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (AKey* key = Cast<AKey>(OtherActor))
+	{
+		OverlappingObjects.Remove(key);
+	}
+}
+
+void ANewPlayer::PickUpKey()
+{
+	if (OverlappingObjects.Num() > 0)
+	{
+		AKey* key = OverlappingObjects[0];
+		key->Pick();
+		OverlappingObjects.Remove(key);
+	}
+}

@@ -3,7 +3,6 @@
 
 #include "MyPlayer.h"
 #include "Components/BoxComponent.h"
-#include "MyBullet.h"
 
 // Sets default values
 AMyPlayer::AMyPlayer()
@@ -18,7 +17,7 @@ AMyPlayer::AMyPlayer()
     CollisionBox->SetCollisionResponseToAllChannels(ECR_Overlap);
     CollisionBox->SetGenerateOverlapEvents(true);
 
-    CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &AMyPlayer::OnOverlapBegin);
+    //CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &AMyPlayer::OnOverlapBegin);
 }
 
 // Called when the game starts or when spawned
@@ -41,18 +40,18 @@ void AMyPlayer::Tick(float DeltaTime)
 //    InputComponent->("Fire", IE_Pressed, this, &APlayerMovement::FirePressed);
 //}
 
-void AMyPlayer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-    if (OtherActor && OtherActor != this)
-    {
-        if (GEngine)
-        {
-            GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Choque contra algo");
-        }
-    }
-
-    AMyBullet* bullet = Cast<AMyBullet>(OtherActor);
-    health -= bullet->damage;
-}
+// void AMyPlayer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+//     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+// {
+//     if (OtherActor && OtherActor != this)
+//     {
+//         if (GEngine)
+//         {
+//             GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Choque contra algo");
+//         }
+//     }
+//
+//     AMyBullet* bullet = Cast<AMyBullet>(OtherActor);
+//     health -= bullet->damage;
+// }
 

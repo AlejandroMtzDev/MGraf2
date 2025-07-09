@@ -29,23 +29,26 @@ public:
 	UPROPERTY(EditAnywhere)
 	float rotationRate;
 
+	// Proyectil
 	void FirePressed();
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> spawnObject;
 
+	// Rango de recoleccion
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* PickUpRange;
+	
+	UPROPERTY(VisibleAnywhere)
+	bool hasKey = false;
 
-	TArray<class AKey*> OverlappingObjects;
-
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-		const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	// UFUNCTION()
+	// void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	// 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	// 	const FHitResult& SweepResult);
+	//
+	// UFUNCTION()
+	// void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+	// 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	void PickUpKey();
 

@@ -2,7 +2,7 @@
 
 
 #include "NewPlayer.h"
-#include "Key.h"
+#include "KeyObject.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
@@ -16,8 +16,8 @@ ANewPlayer::ANewPlayer()
 	PickUpRange->InitSphereRadius(200.0f);
 	PickUpRange->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
 
-	PickUpRange->OnComponentBeginOverlap.AddDynamic(this, &ANewPlayer::OnOverlapBegin);
-	PickUpRange->OnComponentEndOverlap.AddDynamic(this, &ANewPlayer::OnOverlapEnd);
+	// PickUpRange->OnComponentBeginOverlap.AddDynamic(this, &ANewPlayer::OnOverlapBegin);
+	// PickUpRange->OnComponentEndOverlap.AddDynamic(this, &ANewPlayer::OnOverlapEnd);
 }
 
 // Called when the game starts or when spawned
@@ -73,28 +73,29 @@ void ANewPlayer::FirePressed()
 	GetWorld()->SpawnActor<AActor>(spawnObject, GetActorLocation(), GetActorRotation());
 }
 
-void ANewPlayer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (AKey* key = Cast<AKey>(OtherActor))
-	{
-		OverlappingObjects.Add(key);
-	}
-}
-
-void ANewPlayer::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (AKey* key = Cast<AKey>(OtherActor))
-	{
-		OverlappingObjects.Remove(key);
-	}
-}
-
-void ANewPlayer::PickUpKey()
-{
-	if (OverlappingObjects.Num() > 0)
-	{
-		AKey* key = OverlappingObjects[0];
-		key->Pick();
-		OverlappingObjects.Remove(key);
-	}
-}
+// void ANewPlayer::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+// {
+// 	if (AKeyObject* key = Cast<AKeyObject>(OtherActor))
+// 	{
+// 		OverlappingObjects.Add(key);
+// 		key->Pick();
+// 	}
+// }
+//
+// void ANewPlayer::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+// {
+// 	if (AKeyObject* key = Cast<AKeyObject>(OtherActor))
+// 	{
+// 		OverlappingObjects.Remove(key);
+// 	}
+// }
+//
+// void ANewPlayer::PickUpKey()
+// {
+// 	if (OverlappingObjects.Num() > 0)
+// 	{
+// 		AKeyObject* key = OverlappingObjects[0];
+// 		key->Pick();
+// 		OverlappingObjects.Remove(key);
+// 	}
+// }

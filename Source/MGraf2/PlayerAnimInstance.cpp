@@ -2,13 +2,13 @@
 
 
 #include "PlayerAnimInstance.h"
-#include "ThirdPerson/FPV_Controller.h"
+#include "ThirdPerson/TPV_Controller.h"
 
 void UPlayerAnimInstance::UpdateAnimationProperties(float deltaSeconds)
 {
 	if (playerCharacter == nullptr)
 	{
-		playerCharacter = Cast<AFPV_Controller>(TryGetPawnOwner());
+		playerCharacter = Cast<ATPV_Controller>(TryGetPawnOwner());
 	}
 
 	if (playerCharacter)
@@ -23,6 +23,6 @@ void UPlayerAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 
-	playerCharacter = Cast<AFPV_Controller>(TryGetPawnOwner());
+	playerCharacter = Cast<ATPV_Controller>(TryGetPawnOwner());
 }
 

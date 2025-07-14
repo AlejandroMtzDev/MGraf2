@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "ThirdPerson/FPV_Controller.h"
+#include "ThirdPerson/TPV_Controller.h"
 #include "PlayerAnimInstance.generated.h"
 
 /**
@@ -23,7 +23,7 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
-	AFPV_Controller* playerCharacter;
+	ATPV_Controller* playerCharacter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float speed;

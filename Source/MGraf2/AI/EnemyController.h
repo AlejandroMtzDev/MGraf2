@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "Runtime/AIModule/Classes/AIController.h"
 #include "EnemyController.generated.h"
 
@@ -13,11 +14,20 @@ class MGRAF2_API AEnemyController : public AAIController
 
 public:
 	// Sets default values for this actor's properties
-	AEnemyController();
+	explicit AEnemyController(FObjectInitializer const& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void OnPossess(APawn* InPawn) override;
+
+	class UAISenseConfig_Sight* SightConfig;
+
+	UFUNCTION()
+	void OnTargetDetected(AActor* actor, FAIStimulus const stimulus);
+	
+	void SetUpPerceptionSystem();
 
 public:
 	// Called every frame
